@@ -1,0 +1,35 @@
+- Klienti merr nje biciklete
+
+- Admin
+- Klientet
+- Bicikletat
+
+User story 1:
+ - Klientit i duhet nje biciklete
+	1. Klienti i kerkon admin nje biciklete
+	2. Admin kerkon per bicikletat e lira
+		a. Ka bicikleta te lira - Shko ne 3
+		b. Ka vetem bicikleta me cmim te lire...
+	3. Admin pyet klientin cfare biciklete kerkon
+	4. Klienti zgjedh ne lloj
+	5. Admin merr te dhenat personale te klientit dhe i fut ne sisitem
+
+User story 2:
+ - Klienti kthen bicikleten
+	1. Admin kerkon te dhenat personale te klientit
+	2. Klienti jep te dhenat
+	3. Admin kerkon klientin ne sistem
+	4. Sistemi tregon shumen qe duhet te paguhet
+	5. Admin i tregon klientit per shumen qe duhet te paguhet
+	6. Klienti paguan shumen
+	7. Admin e kthen bicikleten si te lire
+
+User story 3:
+ - Admin shton nje biciklete
+	1. Admin jep te dhenat per bicikleten
+	2. Admin regjistron bicikleten
+
+User story 4:
+ - Admin gjeneron raport
+	1. Admin zgjedh periudhen kohore
+	2. Sistemi gjeneron raportin

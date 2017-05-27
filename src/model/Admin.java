@@ -1,0 +1,76 @@
+package model;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Admin {
+ 
+    private int id;
+    private String username;
+    private String password;
+    private String salt;
+    private String name;
+
+    public Admin(ResultSet rs) throws SQLException {
+    
+        id = rs.getInt("id");
+        username = rs.getString("username");
+        password = rs.getString("password");
+        salt = rs.getString("salt");
+        name = rs.getString("name");
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public String getPasswordHash() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        
+        this.password = Helpers.getPasswordHash(password + salt);
+        updateDB();
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        
+        this.name = name;
+        updateDB();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    
+    private void updateDB() {
+    
+        try {
+        
+            Connection sqlConn = DB.getConnection();
+            Statement stmt = sqlConn.createStatement();
+            stmt.executeUpdate("UPDATE admin SET name='" + 
+                                name + 
+                                "', password='" + 
+                                password + 
+                                "' WHERE id=" + id);
+            
+            stmt.close();
+            sqlConn.close();
+        }
+        catch(SQLException ex) {
+        
+        }
+    }
+}
