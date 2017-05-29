@@ -30,10 +30,20 @@ public class Admin {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) throws SQLException {
         
-        this.password = Helpers.getPasswordHash(password + salt);
-        updateDB();
+        String tmpPassword = this.password;
+        
+        try {
+            
+            this.password = Helpers.getPasswordHash(password + salt);
+            updateDB();
+        }
+        catch(SQLException ex) {
+        
+            this.password = tmpPassword;
+            throw ex;
+        }
     }
 
     public String getSalt() {
@@ -44,20 +54,30 @@ public class Admin {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws SQLException {
         
-        this.name = name;
-        updateDB();
+        String tmpName = this.name;
+        
+        try {
+            
+            this.name = name;
+            updateDB();
+        }
+        catch(SQLException ex) {
+        
+            this.name = tmpName;
+            throw ex;
+        }
     }
 
     public String getUsername() {
         return username;
     }
     
-    private void updateDB() {
+    private void updateDB() throws SQLException {
     
-        try {
-        
+//        try {
+//        
             Connection sqlConn = DB.getConnection();
             Statement stmt = sqlConn.createStatement();
             stmt.executeUpdate("UPDATE admin SET name='" + 
@@ -68,9 +88,9 @@ public class Admin {
             
             stmt.close();
             sqlConn.close();
-        }
-        catch(SQLException ex) {
-        
-        }
+//        }
+//        catch(SQLException ex) {
+//        
+//        }
     }
 }

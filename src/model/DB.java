@@ -9,7 +9,10 @@ import java.util.ArrayList;
 
 public class DB {
    
-    public static String connString = "jdbc:sqlserver://DESKTOP-75DNHP5;databaseName=rent_a_bike;integratedSecurity=true";
+    private static final String HOSTNAME = "DESKTOP-75DNHP5";
+    private static final String DATABASE = "rent_a_bike";
+    
+    public static final String CONNECTION_STRING = "jdbc:sqlserver://" + HOSTNAME + ";databaseName=" + DATABASE + ";integratedSecurity=true";
     
     public static Connection getConnection() throws SQLException {
     
@@ -17,7 +20,7 @@ public class DB {
             
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             
-            return DriverManager.getConnection(connString);
+            return DriverManager.getConnection(CONNECTION_STRING);
         }
         catch(ClassNotFoundException ex) {
         
@@ -38,7 +41,7 @@ public class DB {
             rs.next();
             
             if(rs.getRow() != 0) {
-            
+           
                 String dbPasswordHash = rs.getString("password");
                 String dbSalt = rs.getString("salt");
                 
@@ -70,30 +73,104 @@ public class DB {
         return result;
     } 
     
-    public static ArrayList<BikeType> getBikeTypes() {
+    public static ArrayList<BikeType> getBikeTypes() throws SQLException {
     
         ArrayList<BikeType> result = new ArrayList<>();
         
-        try {
-        
-            Connection sqlConn = DB.getConnection();
-            Statement stmt = sqlConn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM bicikleta_llojet");
-            
-            while(rs.next()) {
-        
-                result.add(new BikeType(rs));
-            }
-            
-            rs.close();
-            stmt.close();
-            sqlConn.close();
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM bicikleta_llojet");
+
+        while(rs.next()) {
+
+            result.add(new BikeType(rs));
         }
-        catch(SQLException ex) {
+
+        rs.close();
+        stmt.close();
+        sqlConn.close();
+
         
-            //DB error
+        return result;
+    }
+    
+    public static ArrayList<Bike> getAllBikes() throws SQLException {
+    
+        ArrayList<Bike> result = new ArrayList<>();
+        
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM bicikleta");
+
+        while(rs.next()) {
+
+            result.add(new Bike(rs));
         }
+
+        rs.close();
+        stmt.close();
+        sqlConn.close();
+
+        return result;
+    }
+
+    public static ArrayList<Bike> getFreeBikes() throws SQLException {
+    
+        ArrayList<Bike> result = new ArrayList<>();
         
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM bicikleta WHERE statusi=0");
+
+        while(rs.next()) {
+
+            result.add(new Bike(rs));
+        }
+
+        rs.close();
+        stmt.close();
+        sqlConn.close();
+
+        return result;
+    }
+    
+    public static ArrayList<Client> getClients() throws SQLException {
+    
+        ArrayList<Client> result = new ArrayList<>();
+        
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM klienti");
+
+        while(rs.next()) {
+
+            result.add(new Client(rs));
+        }
+
+        rs.close();
+        stmt.close();
+        sqlConn.close();
+
+        return result;
+    }
+    
+    public static ArrayList<Client> searchClient(String personalNumber) throws SQLException {
+
+        ArrayList<Client> result = new ArrayList<>();
+        
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM klienti WHERE numri_personal='" + personalNumber + "'");
+
+        while(rs.next()) {
+
+            result.add(new Client(rs));
+        }
+
+        rs.close();
+        stmt.close();
+        sqlConn.close();
+
         return result;
     }
 }

@@ -1,5 +1,6 @@
 package rab;
 
+import java.sql.SQLException;
 import model.Admin;
 import model.DB;
 
@@ -9,6 +10,13 @@ public class Main {
 
         Admin admin = DB.login("dren", "123123");
         
-        admin.setPassword("123123");
+        try {
+            
+            admin.setPassword("123123");
+        } 
+        catch (SQLException ex) {
+            
+            //Connection error
+        }
     }
 }

@@ -26,40 +26,70 @@ public class BikeType {
         return typeName;
     }
 
-    public void setTypeName(String typeName) {
+    public void setTypeName(String typeName) throws SQLException {
         
-        this.typeName = typeName;
-        updateDB();
+        String tmpTypeName = this.typeName;
+        
+        try {
+            
+            this.typeName = typeName;
+            updateDB();
+        }
+        catch(SQLException ex) {
+        
+            this.typeName = tmpTypeName;
+            throw ex;
+        }
     }
 
     public float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(float price) throws SQLException {
         
-        this.price = price;
-        updateDB();
-    }
-    
-    private void updateDB() {
-    
+        float tmpPrice = this.price;
+        
         try {
-        
-            Connection sqlConn = DB.getConnection();
-            Statement stmt = sqlConn.createStatement();
-            stmt.executeUpdate("UPDATE bicikleta_llojet SET lloji='" + 
-                                typeName + 
-                                "', cmimi=" + 
-                                price + 
-                                " WHERE id=" + 
-                                id);
             
-            stmt.close();
-            sqlConn.close();
+            this.price = price;
+            updateDB();
         }
         catch(SQLException ex) {
         
+            this.price = tmpPrice;
+            throw ex;
         }
+    }
+    
+    public boolean delete() throws SQLException {
+    
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        
+        return stmt.execute("DELETE FROM bicikleta_llojet WHERE id=" + id);
+    }
+    
+    public static boolean add(String typeName, float price) throws SQLException {
+            
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        
+        return stmt.execute("INSERT INTO bicikleta_llojet (lloji, cmimi) VALUES ('" + typeName + "', " + price + ")");
+    }
+    
+    private void updateDB() throws SQLException {
+
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        stmt.executeUpdate("UPDATE bicikleta_llojet SET lloji='" + 
+                            typeName + 
+                            "', cmimi=" + 
+                            price + 
+                            " WHERE id=" + 
+                            id);
+
+        stmt.close();
+        sqlConn.close();
     }
 }
