@@ -114,4 +114,10 @@ public class Bike {
         stmt.close();
         sqlConn.close();
     }
+    
+    @Override
+    public String toString() {
+    
+        return "Bike " + getId();
+    }
 }

@@ -1,22 +1,26 @@
 package rab;
 
-import java.sql.SQLException;
+import ui.LoginWindow;
+import ui.MenuWindow;
 import model.Admin;
-import model.DB;
+import ui.LeaseWindow;
 
 public class Main {
 
+    private static Admin admin = null;
+    
     public static void main(String[] args) {
 
-        Admin admin = DB.login("dren", "123123");
+        LoginWindow loginWindow = new LoginWindow();
+        loginWindow.setVisible(true);
         
-        try {
+        loginWindow.setLoginCallback((Admin adminParam) -> {
             
-            admin.setPassword("123123");
-        } 
-        catch (SQLException ex) {
+            Main.admin = adminParam;
             
-            //Connection error
-        }
+            MenuWindow menuWindow = new MenuWindow();
+            menuWindow.setVisible(true);
+            menuWindow.setAdmin(admin);
+        });
     }
 }

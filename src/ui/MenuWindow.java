@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UI;
+package ui;
+
+import model.Admin;
 
 /**
  *
@@ -16,6 +18,7 @@ public class MenuWindow extends javax.swing.JFrame {
      */
     public MenuWindow() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -43,6 +46,12 @@ public class MenuWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
+
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Dorezo biciklete");
@@ -136,10 +145,13 @@ public class MenuWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel7.getAccessibleContext().setAccessibleName("Gjenero raportet");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        
+        showLeaseWindow();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -190,4 +202,17 @@ public class MenuWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
+
+    private Admin admin;
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+    
+    private void showLeaseWindow() {
+    
+        LeaseWindow leaseWindow = new LeaseWindow();
+        leaseWindow.setVisible(true);
+        leaseWindow.setAdmin(admin);
+    }
 }

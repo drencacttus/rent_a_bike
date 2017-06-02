@@ -92,4 +92,10 @@ public class BikeType {
         stmt.close();
         sqlConn.close();
     }
+    
+    @Override
+    public String toString() {
+    
+        return getTypeName();
+    }
 }

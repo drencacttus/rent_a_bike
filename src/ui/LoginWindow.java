@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UI;
+package ui;
 
 import model.Admin;
 import model.DB;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -150,15 +147,31 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
+    public interface LoginCallback {
+    
+        void loginSuccessful(Admin admin);
+    }
+    
+    private LoginCallback loginCallback;
+    private Admin admin;
+
+    public void setLoginCallback(LoginCallback loginCallback) {
+        
+        this.loginCallback = loginCallback;
+    }
+    
     private void login(String username, String password) {
     
         try {
             
-            Admin admin = DB.login(username, password);
+            admin = DB.login(username, password);
             
             if(admin != null) {
             
-                System.out.println("Login ok");
+                if(loginCallback != null)
+                    loginCallback.loginSuccessful(admin);
+                
+                this.setVisible(false);
             }
             else {
             
@@ -169,5 +182,10 @@ public class LoginWindow extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Failed to connect to server", "Server error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    public Admin getAdmin() {
+    
+        return admin;
     }
 }
