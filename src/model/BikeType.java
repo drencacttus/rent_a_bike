@@ -26,14 +26,15 @@ public class BikeType {
         return typeName;
     }
 
-    public void setTypeName(String typeName) throws SQLException {
+    public void setTypeName(String typeName, boolean shouldUpdateDB) throws SQLException {
         
         String tmpTypeName = this.typeName;
         
         try {
             
             this.typeName = typeName;
-            updateDB();
+            if(shouldUpdateDB)
+                updateDB();
         }
         catch(SQLException ex) {
         
@@ -46,14 +47,15 @@ public class BikeType {
         return price;
     }
 
-    public void setPrice(float price) throws SQLException {
+    public void setPrice(float price, boolean shouldUpdateDB) throws SQLException {
         
         float tmpPrice = this.price;
         
         try {
             
             this.price = price;
-            updateDB();
+            if(shouldUpdateDB)
+                updateDB();
         }
         catch(SQLException ex) {
         

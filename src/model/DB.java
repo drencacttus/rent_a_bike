@@ -154,6 +154,26 @@ public class DB {
         return result;
     }
     
+    public static ArrayList<Client> getCarryingClients() throws SQLException {
+    
+        ArrayList<Client> result = new ArrayList<>();
+        
+        Connection sqlConn = DB.getConnection();
+        Statement stmt = sqlConn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM klienti WHERE koha_pranimit=0");
+
+        while(rs.next()) {
+
+            result.add(new Client(rs));
+        }
+
+        rs.close();
+        stmt.close();
+        sqlConn.close();
+
+        return result;
+    }
+    
     public static ArrayList<Client> searchClient(String personalNumber) throws SQLException {
 
         ArrayList<Client> result = new ArrayList<>();

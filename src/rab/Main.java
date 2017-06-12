@@ -3,7 +3,7 @@ package rab;
 import ui.LoginWindow;
 import ui.MenuWindow;
 import model.Admin;
-import ui.LeaseWindow;
+import model.Report;
 
 public class Main {
 

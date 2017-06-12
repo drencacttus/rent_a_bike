@@ -56,14 +56,15 @@ public class Client {
         return returnTime;
     }
 
-    public void setReturnTime(long returnTime) throws SQLException {
+    public void setReturnTime(long returnTime, boolean doUpdateDB) throws SQLException {
         
         long tmpReturnTime = this.returnTime;
         
         try {
             
-            this.returnTime = returnTime;
-            updateDB();
+            this.returnTime = returnTime / 1000;
+            if(doUpdateDB)
+                updateDB();
         }
         catch(SQLException ex) {
         
@@ -76,20 +77,30 @@ public class Client {
         return price;
     }
 
-    public void setPrice(float price) throws SQLException {
+    public void setPrice(float price, boolean doUpdateDB) throws SQLException {
         
         float tmpPrice = this.price;
         
         try {
             
             this.price = price;
-            updateDB();
+            
+            if(doUpdateDB)
+                updateDB();
         }
         catch(SQLException ex) {
         
             this.price = tmpPrice;
             throw ex;
         }
+    }
+    
+    public int getTotalTime() {
+    
+        if(returnTime == 0)
+            return 0;
+        
+        return (int)(returnTime - leaseTime) / 60;
     }
     
     public static boolean add(String personalNumber, int bikeId, int adminId) throws SQLException {
@@ -108,7 +119,7 @@ public class Client {
     
         Connection sqlConn = DB.getConnection();
         Statement stmt = sqlConn.createStatement();
-        stmt.executeUpdate("UPDATE klenti SET koha_pranimit=" + 
+        stmt.executeUpdate("UPDATE klienti SET koha_pranimit=" + 
                             returnTime + 
                             ", pagesa=" + 
                             price + 
@@ -117,5 +128,11 @@ public class Client {
 
         stmt.close();
         sqlConn.close();
+    }
+    
+    @Override
+    public String toString() {
+    
+        return personalNumber;
     }
 }

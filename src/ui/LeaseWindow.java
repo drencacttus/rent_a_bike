@@ -51,8 +51,10 @@ public class LeaseWindow extends javax.swing.JFrame {
         lblColorLabel = new javax.swing.JLabel();
         lblColor = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Lease bike");
         setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         lblPersonalNumber.setText("Personal Number:");
 
@@ -254,6 +256,7 @@ public class LeaseWindow extends javax.swing.JFrame {
                 
                 try{
                     
+                    selectedBike.setStatus(true);
                     Client.add(personalNumber, selectedBike.getId(), admin.getId());
                     JOptionPane.showMessageDialog(null, "Client successfully added", "Success", JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);

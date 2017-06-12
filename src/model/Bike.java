@@ -107,8 +107,10 @@ public class Bike {
         stmt.executeUpdate("UPDATE bicikleta set lloji_id=" + 
                             typeId + 
                             ", ngjyra='" + 
-                            color + 
-                            "' WHERE id=" + 
+                            color +                             typeId + 
+                            "', statusi=" + 
+                            status +
+                            " WHERE id=" + 
                             id);
 
         stmt.close();
